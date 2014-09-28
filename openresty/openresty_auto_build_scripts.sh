@@ -389,7 +389,7 @@ echo
 
 # Step 5. Download for init scripts
 function init_scripts {
-SCRIPTS_URL=http://cdn.yongbok.net/ruo91/nginx
+SCRIPTS_URL=https://raw.githubusercontent.com/ruo91/nginx_scripts/master/openresty
 INIT_D_PATH=/etc/init.d/openresty
 SYSTEMD_PATH=/etc/systemd/system/openresty.service
 
@@ -400,7 +400,7 @@ if [ "$DEBIAN" == "Debian" ]; then
 		echo -ne "\033[33m ]\033[0m \n"
 
 	else
-		curl -L -o $INIT_D_PATH "$SCRIPTS_URL/init_scripts/debian_openresty"
+		curl -L -o $INIT_D_PATH "$SCRIPTS_URL/initd_scripts/debian_openresty"
 		chmod a+x $INIT_D_PATH
 		update-rc.d -f openresty defaults
 	fi
@@ -412,7 +412,7 @@ elif [ "$DEBIAN" == "Ubuntu" ]; then
 		echo -ne "\033[33m ]\033[0m \n"
 
 	else
-		curl -L -o $INIT_D_PATH "$SCRIPTS_URL/init_scripts/ubuntu_openresty"
+		curl -L -o $INIT_D_PATH "$SCRIPTS_URL/initd_scripts/ubuntu_openresty"
 		chmod a+x $INIT_D_PATH
 		update-rc.d -f openresty defaults
 	fi
@@ -425,7 +425,7 @@ elif [ "$REDHAT" == "CentOS" ]; then
 			echo -ne "\033[33m ]\033[0m \n"
 
 		else
-			curl -L -o $SYSTEMD_PATH "$SCRIPTS_URL/init_scripts/systemd_openresty"
+			curl -L -o $SYSTEMD_PATH "$SCRIPTS_URL/systemd_scripts/systemd_openresty"
 			systemctl enable openresty
 		fi
 
@@ -436,7 +436,7 @@ elif [ "$REDHAT" == "CentOS" ]; then
 			echo -ne "\033[33m ]\033[0m \n"
 
 		else
-			curl -L -o $INIT_D_PATH "$SCRIPTS_URL/init_scripts/redhat_openresty"
+			curl -L -o $INIT_D_PATH "$SCRIPTS_URL/initd_scripts/redhat_openresty"
 			chmod a+x $INIT_D_PATH
 			chkconfig --add openresty
 		fi
@@ -451,7 +451,7 @@ elif [ "$REDHAT" == "Fedora" ]; then
 			echo -ne "\033[33m ]\033[0m \n"
 
 		else
-			curl -L -o $SYSTEMD_PATH "$SCRIPTS_URL/init_scripts/systemd_openresty"
+			curl -L -o $SYSTEMD_PATH "$SCRIPTS_URL/systemd_scripts/systemd_openresty"
 			systemctl enable openresty
 		fi
 
@@ -487,7 +487,7 @@ case $GOOGLE_PAGESPEED in
 			echo -ne "\033[33m ]\033[0m \n"
 
 		else
-			curl -LO "$SCRIPTS_URL/config_for_openresty_pagespeed.tar.gz"
+			curl -LO "$SCRIPTS_URL/config/config_for_openresty_pagespeed.tar.gz"
 			tar xzvf config_for_openresty_pagespeed.tar.gz && rm -f config_for_openresty_pagespeed.tar.gz
 		fi
 		;;
@@ -499,7 +499,7 @@ case $GOOGLE_PAGESPEED in
 			echo -ne "\033[33m ]\033[0m \n"
 
 		else
-			curl -LO "$SCRIPTS_URL/config_for_openresty.tar.gz"
+			curl -LO "$SCRIPTS_URL/config/config_for_openresty.tar.gz"
 			tar xzvf config_for_openresty.tar.gz && rm -f config_for_openresty.tar.gz
 		fi
 		;;
