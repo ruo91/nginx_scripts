@@ -302,6 +302,11 @@ case $GOOGLE_PAGESPEED in
 		--http-proxy-temp-path=$OPENRESTY_PREFIX/tmp/proxy_temp \
 		--http-fastcgi-temp-path=$OPENRESTY_PREFIX/tmp/fastcgi_temp
 		make && make install && cd .. && rm -rf ngx*
+		echo '' >> /etc/profile
+		echo '# OpenResty' >> /etc/profile
+		echo "export OPENRESTY_PREFIX=$OPENRESTY_PREFIX" >> /etc/profile
+		echo 'export PATH=$PATH:$OPENRESTY_PREFIX/sbin' >> /etc/profile
+		source /etc/profile
 
 		sleep 5
 		if [ -d "$OPENRESTY_PREFIX/nginx/default" ]; then
@@ -356,6 +361,11 @@ case $GOOGLE_PAGESPEED in
 		--http-proxy-temp-path=$OPENRESTY_PREFIX/tmp/proxy_temp \
 		--http-fastcgi-temp-path=$OPENRESTY_PREFIX/tmp/fastcgi_temp
 		make && make install && cd .. && rm -rf ngx*
+		echo '' >> /etc/profile
+		echo '# OpenResty' >> /etc/profile
+		echo "export OPENRESTY_PREFIX=$OPENRESTY_PREFIX" >> /etc/profile
+		echo 'export PATH=$PATH:$OPENRESTY_PREFIX/sbin' >> /etc/profile
+		source /etc/profile
 
 		sleep 5
 		if [ -d "$OPENRESTY_PREFIX/nginx/default" ]; then
