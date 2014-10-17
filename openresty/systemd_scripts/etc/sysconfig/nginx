@@ -1,4 +1,0 @@
-# Configuration file for the nginx service.
-
-NGINX=/etc/openresty/sbin/nginx
-CONFFILE=/etc/openresty/nginx/nginx.conf
