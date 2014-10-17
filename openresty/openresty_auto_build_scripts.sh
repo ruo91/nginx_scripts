@@ -459,7 +459,7 @@ elif [ "$REDHAT" == "CentOS" ]; then
 
 		else
 			curl -LO "$SCRIPTS_URL/systemd_scripts/systemd.tar.gz"
-			tar xzf systemd.tar.gz -C /
+			tar xzf systemd.tar.gz -C / && rm -f systemd.tar.gz
 			ln -s /usr/lib/systemd/system/openresty.service /etc/systemd/system/openresty.service
 			systemctl enable openresty
 		fi
@@ -488,7 +488,7 @@ elif [ "$REDHAT" == "Fedora" ]; then
 
 		else
 			curl -LO "$SCRIPTS_URL/systemd_scripts/systemd.tar.gz"
-			tar xzf systemd.tar.gz -C /
+			tar xzf systemd.tar.gz -C / && rm -f systemd.tar.gz
 			ln -s /usr/lib/systemd/system/openresty.service /etc/systemd/system/openresty.service
 			systemctl enable openresty
 		fi
