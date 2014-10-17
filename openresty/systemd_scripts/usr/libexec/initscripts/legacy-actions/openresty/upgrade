@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Legacy action script for "service nginx upgrade"
+# Legacy action script for "service openresty upgrade"
 
 # Source function library.
 . /etc/rc.d/init.d/functions
