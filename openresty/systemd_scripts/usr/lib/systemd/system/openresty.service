@@ -5,7 +5,7 @@ After=network.target remote-fs.target nss-lookup.target
  
 [Service]
 Type=forking
-PIDFile=/etc/openresty/tmp/run/nginx.pid
+PIDFile=/etc/openresty/tmp/run/openresty.pid
 ExecStartPre=/etc/openresty/sbin/nginx -t -c /etc/openresty/nginx/nginx.conf
 ExecStart=/etc/openresty/sbin/nginx -c /etc/openresty/nginx/nginx.conf
 ExecReload=/bin/kill -s HUP $MAINPID
