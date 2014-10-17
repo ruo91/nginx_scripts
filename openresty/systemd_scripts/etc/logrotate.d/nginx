@@ -1,0 +1,13 @@
+/etc/openresty/nginx/logs/*.log {
+        daily
+        missingok
+        rotate 52
+        compress
+        delaycompress
+        notifempty
+        create 640 nginx adm
+        sharedscripts
+        postrotate
+                [ -f /etc/openresty/tmp/run/nginx.pid ] && kill -USR1 `cat /etc/openresty/tmp/run/nginx.pid`
+        endscript
+}
