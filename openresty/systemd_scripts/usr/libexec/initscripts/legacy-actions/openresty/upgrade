@@ -8,7 +8,7 @@
 prog=nginx
 nginx=/etc/openresty/sbin/nginx
 conffile=/etc/openresty/nginx/nginx.conf
-pidfile=`/usr/bin/systemctl show -p PIDFile nginx.service | sed 's/^PIDFile=//' | tr ' ' '\n'`
+pidfile=`/usr/bin/systemctl show -p PIDFile openresty.service | sed 's/^PIDFile=//' | tr ' ' '\n'`
 SLEEPMSEC=100000
 RETVAL=0
 
