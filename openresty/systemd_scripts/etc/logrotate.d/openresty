@@ -8,6 +8,6 @@
         create 640 nginx adm
         sharedscripts
         postrotate
-                [ -f /etc/openresty/tmp/run/nginx.pid ] && kill -USR1 `cat /etc/openresty/tmp/run/nginx.pid`
+                [ -f /etc/openresty/tmp/run/openresty.pid ] && kill -USR1 `cat /etc/openresty/tmp/run/openresty.pid`
         endscript
 }
