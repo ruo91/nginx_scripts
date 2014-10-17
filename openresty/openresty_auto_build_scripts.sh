@@ -23,7 +23,7 @@ case ${input_the_version_for_openresty} in
 		curl -L -o /tmp/openresty_ver "https://raw.githubusercontent.com/openresty/ngx_openresty/master/util/ver"
 		OPENRESTY_VER=`chmod a+x /tmp/openresty_ver && /tmp/openresty_ver` && rm -f /tmp/openresty_ver
 		google_pagespeed
-		;;
+		;;  
 	*)
 		echo -ne "\033[31m- Does not support version!\033[0m \n"
 		echo -ne "\033[31m- Please check the version for OpenResty!\033[0m \n"
@@ -403,6 +403,7 @@ SCRIPTS_URL=https://raw.githubusercontent.com/ruo91/nginx_scripts/master/openres
 INIT_D_PATH=/etc/init.d/openresty
 SYSTEMD_PATH=/etc/systemd/system/openresty.service
 
+# Debian
 if [ "$DEBIAN" == "Debian" ]; then
 	if [ -f "$INIT_D_PATH" ]; then
 		echo -ne "\033[33m - The \"$INIT_D_PATH\" already exists. [\033[0m"
@@ -415,6 +416,17 @@ if [ "$DEBIAN" == "Debian" ]; then
 		update-rc.d -f openresty defaults
 	fi
 
+	if [ -d "$OPENRESTY_PREFIX/nginx/vhosts" ]; then
+		echo -ne "\033[33m - The config files or directory already exists. [\033[0m"
+		echo -ne "\033[31m SKIP\033[0m"
+		echo -ne "\033[33m ]\033[0m \n"
+
+	else
+		curl -LO "$SCRIPTS_URL/config/config_for_openresty_pagespeed.tar.gz"
+		tar xzvf config_for_openresty_pagespeed.tar.gz -C /etc && rm -f config_for_openresty_pagespeed.tar.gz
+	fi
+
+# Ubuntu
 elif [ "$DEBIAN" == "Ubuntu" ]; then
 	if [ -f "$INIT_D_PATH" ]; then
 		echo -ne "\033[33m - The \"$INIT_D_PATH\" already exists. [\033[0m"
@@ -427,6 +439,17 @@ elif [ "$DEBIAN" == "Ubuntu" ]; then
 		update-rc.d -f openresty defaults
 	fi
 
+	if [ -d "$OPENRESTY_PREFIX/nginx/vhosts" ]; then
+		echo -ne "\033[33m - The config files or directory already exists. [\033[0m"
+		echo -ne "\033[31m SKIP\033[0m"
+		echo -ne "\033[33m ]\033[0m \n"
+
+	else
+		curl -LO "$SCRIPTS_URL/config/config_for_openresty_pagespeed.tar.gz"
+		tar xzvf config_for_openresty_pagespeed.tar.gz -C /etc && rm -f config_for_openresty_pagespeed.tar.gz
+	fi
+
+# CentOS
 elif [ "$REDHAT" == "CentOS" ]; then
 	if [ "`rpm -q --queryformat '%{VERSION}' centos-release`" -eq "7" ]; then
 		if [ -f "$SYSTEMD_PATH" ]; then
@@ -435,23 +458,25 @@ elif [ "$REDHAT" == "CentOS" ]; then
 			echo -ne "\033[33m ]\033[0m \n"
 
 		else
-			curl -L -o $SYSTEMD_PATH "$SCRIPTS_URL/systemd_scripts/systemd_openresty"
+			curl -LO "$SCRIPTS_URL/systemd_scripts/systemd.tar.gz"
+			tar xzf systemd.tar.gz -C /
 			systemctl enable openresty
 		fi
 
-	else
-		if [ -f "$INIT_D_PATH" ]; then
+		else
+			if [ -f "$INIT_D_PATH" ]; then
 			echo -ne "\033[33m - The \"$INIT_D_PATH\" already exists. [\033[0m"
 			echo -ne "\033[31m SKIP\033[0m"
 			echo -ne "\033[33m ]\033[0m \n"
 
-		else
-			curl -L -o $INIT_D_PATH "$SCRIPTS_URL/initd_scripts/redhat_openresty"
-			chmod a+x $INIT_D_PATH
-			chkconfig --add openresty
+			else
+				curl -L -o $INIT_D_PATH "$SCRIPTS_URL/initd_scripts/redhat_openresty"
+				chmod a+x $INIT_D_PATH
+				chkconfig --add openresty
+			fi
 		fi
-	fi
 
+# Fedora
 elif [ "$REDHAT" == "Fedora" ]; then
 	# Systemd for Fedora 15 or higher
 	if [ "`rpm -q --queryformat '%{VERSION}' fedora-release`" -ge "15" ]; then
@@ -461,22 +486,23 @@ elif [ "$REDHAT" == "Fedora" ]; then
 			echo -ne "\033[33m ]\033[0m \n"
 
 		else
-			curl -L -o $SYSTEMD_PATH "$SCRIPTS_URL/systemd_scripts/systemd_openresty"
+			curl -LO "$SCRIPTS_URL/systemd_scripts/systemd.tar.gz"
+			tar xzf systemd.tar.gz -C /
 			systemctl enable openresty
 		fi
 
-	else
-		if [ -f "$INIT_D_PATH" ]; then
-			echo -ne "\033[33m - The \"$INIT_D_PATH\" already exists. [\033[0m"
-			echo -ne "\033[31m SKIP\033[0m"
-			echo -ne "\033[33m ]\033[0m \n"
-
 		else
-			curl -L -o $INIT_D_PATH "$SCRIPTS_URL/init_scripts/redhat_openresty"
-			chmod a+x $INIT_D_PATH
-			chkconfig --add openresty
+			if [ -f "$INIT_D_PATH" ]; then
+				echo -ne "\033[33m - The \"$INIT_D_PATH\" already exists. [\033[0m"
+				echo -ne "\033[31m SKIP\033[0m"
+				echo -ne "\033[33m ]\033[0m \n"
+
+			else
+				curl -L -o $INIT_D_PATH "$SCRIPTS_URL/initd_scripts/redhat_openresty"
+				chmod a+x $INIT_D_PATH
+				chkconfig --add openresty
+			fi
 		fi
-	fi
 
 else
 	echo -ne "\033[31m- Does not support that linux distributions from scripts.\033[0m \n"
@@ -498,7 +524,7 @@ case $GOOGLE_PAGESPEED in
 
 		else
 			curl -LO "$SCRIPTS_URL/config/config_for_openresty_pagespeed.tar.gz"
-			tar xzvf config_for_openresty_pagespeed.tar.gz && rm -f config_for_openresty_pagespeed.tar.gz
+			tar xzf config_for_openresty_pagespeed.tar.gz -C /etc && rm -f config_for_openresty_pagespeed.tar.gz
 		fi
 		;;
 
@@ -510,7 +536,7 @@ case $GOOGLE_PAGESPEED in
 
 		else
 			curl -LO "$SCRIPTS_URL/config/config_for_openresty.tar.gz"
-			tar xzvf config_for_openresty.tar.gz && rm -f config_for_openresty.tar.gz
+			tar xzf config_for_openresty.tar.gz -C /etc && rm -f config_for_openresty.tar.gz
 		fi
 		;;
 esac
