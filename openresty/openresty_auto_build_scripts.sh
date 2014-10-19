@@ -464,18 +464,18 @@ elif [ "$REDHAT" == "CentOS" ]; then
 			systemctl enable openresty
 		fi
 
-		else
-			if [ -f "$INIT_D_PATH" ]; then
+	else
+		if [ -f "$INIT_D_PATH" ]; then
 			echo -ne "\033[33m - The \"$INIT_D_PATH\" already exists. [\033[0m"
 			echo -ne "\033[31m SKIP\033[0m"
 			echo -ne "\033[33m ]\033[0m \n"
 
-			else
-				curl -L -o $INIT_D_PATH "$SCRIPTS_URL/initd_scripts/redhat_openresty"
-				chmod a+x $INIT_D_PATH
-				chkconfig --add openresty
-			fi
+		else
+			curl -L -o $INIT_D_PATH "$SCRIPTS_URL/initd_scripts/redhat_openresty"
+			chmod a+x $INIT_D_PATH
+			chkconfig --add openresty
 		fi
+	fi
 
 # Fedora
 elif [ "$REDHAT" == "Fedora" ]; then
@@ -493,18 +493,18 @@ elif [ "$REDHAT" == "Fedora" ]; then
 			systemctl enable openresty
 		fi
 
-		else
-			if [ -f "$INIT_D_PATH" ]; then
-				echo -ne "\033[33m - The \"$INIT_D_PATH\" already exists. [\033[0m"
-				echo -ne "\033[31m SKIP\033[0m"
-				echo -ne "\033[33m ]\033[0m \n"
+	else
+		if [ -f "$INIT_D_PATH" ]; then
+			echo -ne "\033[33m - The \"$INIT_D_PATH\" already exists. [\033[0m"
+			echo -ne "\033[31m SKIP\033[0m"
+			echo -ne "\033[33m ]\033[0m \n"
 
-			else
-				curl -L -o $INIT_D_PATH "$SCRIPTS_URL/initd_scripts/redhat_openresty"
-				chmod a+x $INIT_D_PATH
-				chkconfig --add openresty
-			fi
+		else
+			curl -L -o $INIT_D_PATH "$SCRIPTS_URL/initd_scripts/redhat_openresty"
+			chmod a+x $INIT_D_PATH
+			chkconfig --add openresty
 		fi
+	fi
 
 else
 	echo -ne "\033[31m- Does not support that linux distributions from scripts.\033[0m \n"
