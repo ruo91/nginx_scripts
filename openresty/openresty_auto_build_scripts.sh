@@ -20,8 +20,9 @@ case ${input_the_version_for_openresty} in
 		google_pagespeed
 		;;
 	auto)
-		curl -L -o /tmp/openresty_ver "https://raw.githubusercontent.com/openresty/ngx_openresty/master/util/ver"
-		OPENRESTY_VER=`chmod a+x /tmp/openresty_ver && /tmp/openresty_ver` && rm -f /tmp/openresty_ver
+		curl -XGET https://github.com/openresty/ngx_openresty/tags | grep tag-name > /tmp/openresty_tag
+		sed -e 's/<[^>]*>//g' /tmp/openresty_tag > /tmp/openresty_ver
+		OPENRESTY_VER=`sed -e 's/      v//g' /tmp/openresty_ver | head -n 1` && rm -f /tmp/openresty_*
 		google_pagespeed
 		;;  
 	*)
